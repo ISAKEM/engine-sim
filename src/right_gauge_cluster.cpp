@@ -68,7 +68,7 @@ void RightGaugeCluster::initialize(EngineSimApplication *app) {
         { m_app->getRed(), 5500, 7000, 3.0f, 6.0f, shortenAngle, -shortenAngle }, 2);
 
     m_speedometer->m_title = "VEHICLE SPEED";
-    m_speedometer->m_unit = "MPH";
+    m_speedometer->m_unit = "KM/H";
     m_speedometer->m_precision = 0;
     m_speedometer->setLocalPosition({ 0, 0 });
     m_speedometer->m_gauge->m_min = 0;
@@ -85,7 +85,7 @@ void RightGaugeCluster::initialize(EngineSimApplication *app) {
     m_speedometer->m_gauge->setBandCount(0);
 
     m_manifoldVacuumGauge->m_title = "MANIFOLD PRESSURE";
-    m_manifoldVacuumGauge->m_unit = "inHg";
+    m_manifoldVacuumGauge->m_unit = "BAR";
     m_manifoldVacuumGauge->m_precision = 0;
     m_manifoldVacuumGauge->setLocalPosition({ 0, 0 });
     m_manifoldVacuumGauge->m_gauge->m_min = -30;
@@ -210,7 +210,7 @@ void RightGaugeCluster::renderTachSpeedCluster(const Bounds &bounds) {
     const Bounds speed = left.verticalSplit(0.0f, 0.5f);
     m_speedometer->m_bounds = speed;
     m_speedometer->m_gauge->m_value =
-        (float)units::convert(std::abs(m_simulator->getVehicle()->getSpeed()), units::mile / units::hour);
+        (float)units::convert(std::abs(m_simulator->getVehicle()->getSpeed()), units::km / units::hour);
 
     m_combusionChamberStatus->m_bounds = right;
 }
@@ -237,7 +237,7 @@ void RightGaugeCluster::renderFuelAirCluster(const Bounds &bounds) {
     m_manifoldVacuumGauge->m_bounds = manifoldVacuum;
 
     const double vacuumReading =
-        units::convert(std::fmin(m_engine->getManifoldPressure() - ambientPressure, 0.0), units::inHg);
+        units::convert(std::fmin(m_engine->getManifoldPressure() - ambientPressure, 0.0), units::bar);
     m_manifoldVacuumGauge->m_gauge->m_value = (vacuumReading > -0.5)
         ? 0.0f
         : (float)vacuumReading;

@@ -1,6 +1,6 @@
 import "engine_sim.mr"
-import "engines/kohler/kohler_ch750.mr"
+import "engines/audilambov10/Lamborghini_5_2.mr"
 
 set_engine(
-    engine: kohler_ch750()
+    engine: lamborghini_5_2()
 )

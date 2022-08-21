@@ -20,6 +20,8 @@
 #include <stdlib.h>
 #include <sstream>
 
+#include "../include/ini.h"
+using namespace std;
 
 #if ATG_ENGINE_DISCORD_ENABLED
 #include "../discord/Discord.h"
@@ -180,18 +182,18 @@ void EngineSimApplication::initialize() {
 #endif /* PIRANHA_ENABLED */
 
     Vehicle::Parameters vehParams;
-    vehParams.Mass = units::mass(1597, units::kg);
+    vehParams.Mass = units::mass(1382, units::kg);
     vehParams.DiffRatio = 3.42;
     vehParams.TireRadius = units::distance(10, units::inch);
-    vehParams.DragCoefficient = 0.25;
+    vehParams.DragCoefficient = 0.19;
     vehParams.CrossSectionArea = units::distance(6.0, units::foot) * units::distance(6.0, units::foot);
     vehParams.RollingResistance = 2000.0;
     Vehicle *vehicle = new Vehicle;
     vehicle->initialize(vehParams);
 
-    const double gearRatios[] = { 2.97, 2.07, 1.43, 1.00, 0.84, 0.56 };
+    const double gearRatios[] = { 2.97, 2.07, 1.33, 1.15, 0.94, 0.82, 0.67 };
     Transmission::Parameters tParams;
-    tParams.GearCount = 6;
+    tParams.GearCount = 7;
     tParams.GearRatios = gearRatios;
     tParams.MaxClutchTorque = units::torque(1000.0, units::ft_lb);
     Transmission *transmission = new Transmission;
@@ -402,6 +404,12 @@ void EngineSimApplication::run() {
     double clutchPressure = 1.0;
     int lastMouseWheel = 0;
 
+    mINI::INIFile file("settings.ini");
+    mINI::INIStructure ini;
+    file.read(ini);
+    std::string& setsimfrequency = ini["setsimfrequency"]["frequency"];
+    m_simulator.setSimulationFrequency(std::stoi(setsimfrequency));
+
     while (true) {
         const float dt = m_engine.GetFrameLength();
         const bool fineControlMode = m_engine.IsKeyDown(ysKey::Code::Space);
@@ -416,6 +424,15 @@ void EngineSimApplication::run() {
 
         if (m_engine.ProcessKeyDown(ysKey::Code::Escape)) {
             break;
+        }
+
+        if (m_engine.ProcessKeyDown(ysKey::Code::U)) {
+            mINI::INIFile file("settings.ini");
+            mINI::INIStructure ini;
+            file.read(ini);
+            std::string& setsimfrequency = ini["setsimfrequency"]["frequency"];
+            m_infoCluster->setLogMessage("[U] - Set simulation freq to " + std::string(setsimfrequency));
+            m_simulator.setSimulationFrequency(std::stoi(setsimfrequency));
         }
 
         m_engine.StartFrame();

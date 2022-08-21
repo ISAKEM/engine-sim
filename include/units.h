@@ -68,6 +68,7 @@ namespace units {
     extern constexpr double psi = lbf / (inch * inch);
     extern constexpr double psig = psi;
     extern constexpr double inHg = Pa * 3386.3886666666713;
+    extern constexpr double bar = Pa * 100000;
     extern constexpr double inH2O = inHg * 0.0734824;
 
     // Temperature
