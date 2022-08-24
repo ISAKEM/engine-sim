@@ -38,13 +38,13 @@ public node chev_truck_454 {
         moment_of_inertia: 0.22986844776863666 * 2,
         position_x: 0.0,
         position_y: 0.0,
-        tdc: constants.pi / 4
+        tdc: 45 * units.deg
     )
 
-    rod_journal rj0(angle: 0.0)
-    rod_journal rj1(angle: -constants.pi / 2)
-    rod_journal rj2(angle: -3.0 * constants.pi / 2)
-    rod_journal rj3(angle: constants.pi)
+    rod_journal rj0(angle: 0)
+    rod_journal rj1(angle: 270 * units.deg)
+    rod_journal rj2(angle: 90 * units.deg)
+    rod_journal rj3(angle: 180 * units.deg)
 
     c0
         .add_rod_journal(rj0)

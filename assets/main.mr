@@ -1,6 +1,6 @@
 import "engine_sim.mr"
-import "engines/audilambov10/Lamborghini_5_2.mr"
+import "engines/650.mr"
 
 set_engine(
-    engine: lamborghini_5_2()
+    engine: Ninja_650()
 )

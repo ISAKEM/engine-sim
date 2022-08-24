@@ -49,7 +49,7 @@ void LoadSimulationCluster::initialize(EngineSimApplication *app) {
 
     m_torqueGauge = addElement<LabeledGauge>();
     m_torqueGauge->m_title = "TORQUE";
-    m_torqueGauge->m_unit = "LB-FT";
+    m_torqueGauge->m_unit = "NM";
     m_torqueGauge->m_precision = 0;
     m_torqueGauge->setLocalPosition({ 0, 0 });
     m_torqueGauge->m_gauge->m_min = 0;
@@ -252,8 +252,8 @@ void LoadSimulationCluster::updateHpAndTorque(float dt) {
     constexpr double RC = 1.0;
     const double alpha = dt / (dt + RC);
 
-    const double torque = units::convert(m_simulator->getFilteredDynoTorque(), units::ft_lb);
-    const double hp = torque * m_simulator->getEngine()->getRpm() / 5252.0;
+    const double torque = units::convert(m_simulator->getFilteredDynoTorque(), units::Nm);
+    const double hp = torque * m_simulator->getEngine()->getRpm() / 7127.0;
 
     m_filteredTorque = (1 - alpha) * m_filteredTorque + alpha * torque;
     m_filteredHorsepower = (1 - alpha) * m_filteredHorsepower + alpha * hp;
